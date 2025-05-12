@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import joblib
+import cloudpickle
 
 st.title("Araç Yakıt Tüketimi (MPG) Tahmini - 4 Model Karşılaştırmalı")
 
@@ -25,6 +25,7 @@ acceleration_norm = (acceleration - 8.0) / (24.8 - 8.0)
 input_data = np.array([[model_year_norm, origin_norm, acceleration_norm]])
 
 if st.button("Tahmin Et"):
-    model = joblib.load(model_files[model_name])
+   with open(model_files[model_name], "rb") as f:
+    model = cloudpickle.load(f)
     prediction = model.predict(input_data)
     st.success(f"{model_name} ile Tahmini MPG: {prediction[0]:.2f}")
