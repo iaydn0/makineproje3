@@ -17,7 +17,7 @@ def load_data():
     from sklearn.datasets import fetch_openml
     data = fetch_openml("autoMpg", version=1, as_frame=True)
     df = data.frame
-    df = df.drop(columns=["car name"])
+    df = df.drop(columns=[col for col in df.columns if "car" in col.lower()])
     df = df.replace("?", np.nan)
     df["horsepower"] = df["horsepower"].astype(float)
     df = df.dropna()
